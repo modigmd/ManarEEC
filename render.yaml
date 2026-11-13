@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: ManarEEC
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: "10000"
+      # Render supplies RENDER_EXTERNAL_URL. The server uses it as its public origin.

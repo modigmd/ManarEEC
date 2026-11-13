@@ -1,0 +1,35 @@
+name: Verify ManarEEC
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build and test the native simulator and website
+        run: docker build --tag manareec-ci .
+      - name: Start the production server
+        run: docker run --detach --name manareec-ci --publish 127.0.0.1:10000:10000 --env PUBLIC_ORIGIN=http://127.0.0.1:10000 manareec-ci
+      - name: Verify assembly and real-core execution through HTTP and WebSocket
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:10000/api/health; then break; fi
+            sleep 1
+          done
+          docker cp scripts/check-hosted.mjs manareec-ci:/app/check-hosted.mjs
+          docker exec manareec-ci node check-hosted.mjs
+      - name: Show server logs
+        if: always()
+        run: docker logs manareec-ci || true
+      - name: Stop the server
+        if: always()
+        run: docker rm --force manareec-ci || true

@@ -1,0 +1,463 @@
+.instruction-flow {
+  --flow-cyan: #5ee0f5;
+  --flow-blue: #3aa8f5;
+  margin: 0;
+  border: 1px solid #293443;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #141c29, #101620 65%);
+  color: #e9eef6;
+  font-family: var(--f-body, "DM Sans", sans-serif);
+}
+.flow-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 23px 26px 0;
+}
+.flow-card-head h3 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.6px;
+  font-weight: 600;
+}
+.flow-trace-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #2b3b4d;
+  border-radius: 30px;
+  padding: 7px 10px;
+  font: 400 11px var(--f-mono, "IBM Plex Mono", monospace);
+  color: #94a6b9;
+  white-space: nowrap;
+}
+.flow-trace-status i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #607084;
+}
+.flow-trace-status.has-trace {
+  color: #91e3f0;
+  border-color: #2f5368;
+}
+.flow-trace-status.has-trace i {
+  background: #5ee0f5;
+  box-shadow: 0 0 9px #5ee0f570;
+}
+.flow-art-wrap {
+  position: relative;
+  margin: 0 6px;
+}
+.flow-art-wrap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.flow-floor-shadow {
+  fill: #000a;
+}
+.flow-solid {
+  --flow-top: #28394b;
+  --flow-fill: #1b2a39;
+  --flow-edge: #516a7e;
+}
+.flow-solid-fill {
+  fill: var(--flow-fill);
+}
+.flow-solid-top {
+  fill: var(--flow-top);
+  transition: fill 0.45s;
+}
+.flow-shade.shade-0 {
+  fill: #101925;
+}
+.flow-shade.shade-1 {
+  fill: #162332;
+}
+.flow-shade.shade-2 {
+  fill: #1e2d3d;
+}
+.flow-shade.shade-3 {
+  fill: #273a4c;
+}
+.flow-edge {
+  fill: none;
+  stroke: var(--flow-edge);
+  stroke-width: 0.7;
+  stroke-linejoin: round;
+  transition: stroke 0.45s;
+}
+.flow-bevel {
+  fill: none;
+  stroke: #8cabc044;
+  stroke-width: 0.75;
+}
+.flow-backplane {
+  --flow-top: #142636;
+  --flow-fill: #0d1927;
+  --flow-edge: #426078;
+}
+.flow-backplane .shade-3 {
+  fill: #132334;
+}
+.flow-foot {
+  --flow-top: #1e2a37;
+  --flow-edge: #344858;
+}
+.flow-base-groove {
+  fill: none;
+  stroke: #35526a;
+  stroke-width: 0.7;
+}
+.flow-floor-trace {
+  fill: none;
+  stroke: #2d4c63;
+  stroke-width: 0.55;
+  opacity: 0.48;
+}
+.flow-screw {
+  --flow-top: #5c758a;
+  --flow-fill: #25394c;
+  --flow-edge: #8b9caa;
+}
+.flow-socket {
+  --flow-top: #1c3043;
+  --flow-edge: #4e6a80;
+}
+.flow-package {
+  --flow-top: #253446;
+  --flow-edge: #5c7389;
+}
+.flow-contact {
+  --flow-top: #8ba2ae;
+  --flow-fill: #496579;
+  --flow-edge: #acc0cd;
+}
+.flow-package-inset {
+  fill: none;
+  stroke: #4e647a;
+  stroke-width: 0.65;
+}
+.flow-package-dot {
+  fill: #8da6ba;
+}
+.flow-module.is-active .flow-package {
+  --flow-top: #154759;
+  --flow-edge: #5ee0f5;
+}
+.flow-module.is-active .flow-package-inset {
+  stroke: #67d7ed;
+}
+.flow-module.is-active .flow-contact {
+  --flow-top: #85d6e3;
+  --flow-edge: #b5f1f8;
+}
+.flow-memory-slot {
+  --flow-top: #182638;
+  --flow-edge: #526b82;
+}
+.flow-memory-slot.selected {
+  --flow-top: #365970;
+  --flow-edge: #8bb1c7;
+}
+.flow-module.is-active .flow-memory-slot.selected {
+  --flow-top: #32798b;
+  --flow-edge: #9aebf6;
+}
+.flow-register-cell {
+  --flow-top: #172a3d;
+  --flow-edge: #486279;
+}
+.flow-register-cell.is-read {
+  --flow-top: #38738b;
+  --flow-edge: #82cbde;
+}
+.flow-gate {
+  fill: #36556b;
+  stroke: #7893aa;
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+  transition:
+    fill 0.4s,
+    stroke 0.4s;
+}
+.flow-module.is-active .flow-gate {
+  fill: #1d6c81;
+  stroke: #9fecf7;
+}
+.flow-gate-mark {
+  fill: none;
+  stroke: #9dbccc;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.flow-latch {
+  --flow-top: #1b3245;
+  --flow-edge: #6a8ba3;
+}
+.flow-latch-bit {
+  fill: none;
+  stroke: #78a2b7;
+  stroke-width: 1.3;
+}
+.flow-module.is-active .flow-latch {
+  --flow-top: #1a6174;
+  --flow-edge: #9beaf5;
+}
+.flow-module.is-active .flow-latch-bit {
+  stroke: #a9f1f5;
+}
+.flow-bus path {
+  fill: none;
+  stroke: #3d627b;
+  stroke-width: 2;
+}
+.flow-bus circle {
+  fill: #779bad;
+  stroke: #143344;
+  stroke-width: 1;
+}
+.flow-bus.is-active path {
+  stroke: #5ee0f5;
+}
+.flow-bus.is-active circle {
+  fill: #9df3ff;
+}
+.flow-bus path.flow-bus-pulse {
+  stroke: #c2f8ff;
+  opacity: 0;
+  stroke-width: 2.5;
+  stroke-dasharray: 3 12;
+}
+.flow-bus.is-active.is-moving path.flow-bus-pulse {
+  opacity: 1;
+  animation: flow-pulse-travel 1.5s linear infinite;
+}
+@keyframes flow-pulse-travel {
+  to {
+    stroke-dashoffset: -30;
+  }
+}
+.flow-phase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid #263646;
+  border-bottom: 1px solid #263646;
+  margin: 0 20px;
+}
+.flow-phase-grid button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  text-align: left;
+  color: #8f9fb2;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid #263646;
+  padding: 16px 12px 18px;
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    color 0.25s;
+  font: inherit;
+}
+.flow-phase-grid button:last-child {
+  border-right: 0;
+}
+.flow-phase-grid button:hover {
+  background: #192d3f;
+}
+.flow-phase-grid button.is-current {
+  background: #16344780;
+  color: #d9f6ff;
+  box-shadow: inset 0 2px #5ee0f5;
+}
+.flow-phase-grid button:focus-visible {
+  outline: 2px solid #5ee0f5;
+  outline-offset: -3px;
+}
+.flow-step-name {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.flow-phase-grid strong {
+  font: 500 12px var(--f-mono, "IBM Plex Mono", monospace);
+  letter-spacing: -0.35px;
+  color: #c5e4f3;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.flow-step-arrow {
+  position: absolute;
+  right: -7px;
+  bottom: 26px;
+  color: #74c5dd;
+  background: #122231;
+  z-index: 1;
+  font-size: 12px;
+  line-height: 14px;
+}
+.flow-phase-grid button:last-child .flow-step-arrow {
+  display: none;
+}
+.flow-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 18px 26px 20px;
+  min-height: 66px;
+}
+.flow-caption strong {
+  font-size: 13px;
+  font-weight: 600;
+  color: #b5e5f4;
+}
+.flow-caption span {
+  font-size: 12px;
+  line-height: 1.75;
+  color: #9eafc2;
+}
+.flow-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 22px;
+  background: #0d141e80;
+  border-top: 1px solid #263646;
+}
+.flow-card-footer > span {
+  font: 400 11px var(--f-mono, "IBM Plex Mono", monospace);
+  color: #9bafc1;
+  letter-spacing: 0.3px;
+}
+.flow-card-footer > div {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.flow-card-footer button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #34495c;
+  background: #172637;
+  color: #b7d5e6;
+  border-radius: 7px;
+  padding: 7px 9px;
+  min-height: 36px;
+  cursor: pointer;
+  font: 500 12px var(--f-body, "DM Sans", sans-serif);
+}
+.flow-card-footer button:hover:not(:disabled) {
+  border-color: #5ee0f5;
+  color: #e1faff;
+}
+.flow-card-footer button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.flow-card-footer button > span {
+  font-size: 14px;
+  line-height: 1;
+}
+.flow-card-footer button:focus-visible {
+  outline: 2px solid #5ee0f5;
+  outline-offset: 3px;
+}
+.flow-accuracy-note {
+  margin: 0;
+  padding: 12px 24px 16px;
+  color: #9bafc1;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.instruction-flow--compact .flow-card-head {
+  padding: 17px 18px 0;
+}
+.instruction-flow--compact .flow-card-head h3 {
+  font-size: 20px;
+}
+.instruction-flow--compact .flow-caption {
+  margin: 16px 18px;
+}
+@media (max-width: 600px) {
+  .flow-card-head {
+    padding: 20px 18px 0;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .flow-card-head h3 {
+    font-size: 21px;
+  }
+  .flow-trace-status {
+    font-size: 10px;
+    padding: 6px 8px;
+    gap: 5px;
+  }
+  .flow-phase-grid {
+    margin: 0 14px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .flow-phase-grid button {
+    min-height: 78px;
+    padding: 13px 12px;
+  }
+  .flow-phase-grid button:nth-child(2) {
+    border-right: 0;
+  }
+  .flow-phase-grid button:nth-child(-n + 2) {
+    border-bottom: 1px solid #263646;
+  }
+  .flow-phase-grid button:nth-child(2) .flow-step-arrow {
+    display: none;
+  }
+  .flow-phase-grid strong {
+    font-size: 12px;
+  }
+  .flow-step-name {
+    font-size: 12px;
+  }
+  .flow-caption {
+    margin: 17px 18px;
+  }
+  .flow-caption span {
+    font-size: 12px;
+  }
+  .flow-card-footer {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+  .flow-card-footer > span {
+    font-size: 11px;
+  }
+  .flow-card-footer > div {
+    margin-left: auto;
+  }
+  .flow-card-footer button {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .flow-accuracy-note {
+    padding: 11px 18px 15px;
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .instruction-flow *,
+  .instruction-flow *::before,
+  .instruction-flow *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

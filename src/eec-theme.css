@@ -1,0 +1,238 @@
+/* EEC identity, adapted from the club's open-hardware directory. */
+:root {
+  color-scheme: dark;
+  --cream: #0c0e13;
+  --paper: #141821;
+  --ink: #e9eef6;
+  --muted: #98a5b9;
+  --teal: #5ee0f5;
+  --teal-dark: #3aa8f5;
+  --border: #283244;
+  background: #0c0e13;
+  color: #e9eef6;
+}
+.eec-theme {
+  color: var(--ink);
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(rgba(160, 190, 230, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(160, 190, 230, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.eec-theme ::selection { background: #245673; color: #ecfbff; }
+.eec-theme .brand,
+.eec-theme .footer-top .brand { color: #f0f4fb; }
+.eec-theme .brand-light,
+.eec-theme .footer-top .brand-light { color: #9aa9bf; }
+.eec-theme .brand-icon { color: var(--teal); }
+.eec-theme .brand-icon img { display: block; object-fit: contain; }
+.eec-theme .site-header {
+  background: rgba(12, 14, 19, 0.94);
+  border-color: #242b38;
+  box-shadow: 0 1px 0 #07121b;
+}
+.eec-theme .nav-links a { color: #a6b2c6; }
+.eec-theme .nav-links a:hover,
+.eec-theme .nav-links a.active { color: #72e6f7; }
+.eec-theme .nav-links a:after { background: linear-gradient(90deg, #5ee0f5, #3aa8f5); }
+.eec-theme .connection-badge {
+  background: #141c27;
+  color: #b6c6da;
+  border-color: #304157;
+}
+.eec-theme .connection-badge svg { color: #82bfd7; }
+.eec-theme .connection-badge.is-connected > span { background: #5ee0f5; box-shadow: 0 0 0 3px #5ee0f51a; }
+.eec-theme .connection-badge > span { background: #e5b65f; }
+.eec-theme .hero { background: #101a26; }
+.eec-theme .hero-vignette {
+  background: linear-gradient(90deg, #060e1940, transparent 55%), linear-gradient(180deg, transparent 72%, #07111c55);
+}
+.eec-theme .hero-content,
+.eec-theme .part-detail,
+.eec-theme .activity-panel {
+  background: rgba(16, 23, 34, 0.97);
+  border-color: #34465c;
+  box-shadow: 0 18px 44px #02060c50, inset 0 1px 0 #708daa16;
+}
+.eec-theme :is(h1,h2,h3,h4) { color: #e9eef6; }
+.eec-theme :is(em,.hero h1 em,.section-heading h2 em) { color: #5ee0f5; }
+.eec-theme :is(.hero-content > p,.section-intro > p,.core-story > p,.part-detail > p,.activity-panel > p,.part-detail details p) { color: #b0bed0; }
+.eec-theme :is(.eyebrow,.section-label,.scene-index) { color: #a4b6cf; text-shadow: none; }
+.eec-theme .eyebrow-dot,
+.eec-theme .section-label > i { background: #5ee0f5; }
+.eec-theme .eyebrow-slash { color: #53667f; }
+.eec-theme :is(.hero-note,.hero-level,.part-detail-foot,.activity-footnote) { color: #9aa9bd; border-color: #2b3a50; }
+.eec-theme .hero-level i { background: #5ee0f5; }
+.eec-theme .hero-level i:nth-child(2) { background: #3aa8f599; }
+.eec-theme .hero-level i:nth-child(3) { background: #3aa8f555; }
+.eec-theme .scene-caption { background: #0e1929e8; border-color: #34465c; color: #c4d8ed; }
+.eec-theme .button { background: #1a2433; border-color: #35465c; color: #dce7f5; }
+.eec-theme .button:hover { background: #24354b; border-color: #4a6b8a; }
+.eec-theme :is(.button-dark,.button-teal,.practice-card-bottom .button-dark,.assembly-card .button-teal) {
+  background: linear-gradient(120deg, #5ee0f5, #3aa8f5);
+  border-color: #64d9f3;
+  color: #071622;
+  box-shadow: 0 5px 18px #3aa8f51a;
+}
+.eec-theme :is(.button-dark:hover,.button-teal:hover,.assembly-card .button-teal:hover) { background: #8aeafb; color: #071622; }
+.eec-theme :is(.button-dark,.button-teal) svg { color: inherit; }
+.eec-theme :is(.icon-button,.part-close,.source-footer .icon-button,.bench-controls .icon-button) { color: #a9bdd5; background: transparent; }
+.eec-theme .icon-button:hover { background: #253348; color: #86eafa; }
+.eec-theme :is(.text-button,.inline-link,.source-tip > button,.part-detail summary,.back-to-top,.footer-bottom a) { color: #70d9f0; }
+.eec-theme :is(.text-button:hover,.inline-link:hover,.back-to-top:hover) { color: #b4f2fb; }
+.eec-theme :is(.view-toolbar,.demo-rail) {
+  background: rgba(18, 26, 39, 0.96);
+  border-color: #3b4c64;
+  box-shadow: 0 12px 32px #02060c55, inset 0 1px 0 #8db8d012;
+}
+.eec-theme .view-toolbar button { color: #b5c7dc; }
+.eec-theme .view-toolbar button:hover { background: #26384d; color: #e2f7ff; }
+.eec-theme :is(.view-toolbar button.selected,.camera-segment button.selected) { background: #23475b; color: #89edfb; }
+.eec-theme .view-toolbar .explode-button { color: #79d9f4; }
+.eec-theme .view-toolbar .explode-button.selected { background: #5ee0f5; color: #0c1b29; }
+.eec-theme .tool-divider { background: #3c4a5d; }
+.eec-theme .demo-card { color: #ccd8e8; }
+.eec-theme .demo-card:hover { background: #1d2c40; }
+.eec-theme .demo-card.active { background: #1b2e43; border-color: #44667f; box-shadow: 0 4px 14px #0005; }
+.eec-theme :is(.demo-number,.demo-subtitle,.rail-intro > span) { color: #8ca0bb; }
+.eec-theme .rail-intro { border-color: #344255; }
+.eec-theme .rail-intro > strong { color: #dce8f6; }
+.eec-theme .rail-intro > svg { color: #65d9f3; }
+.eec-theme .demo-active-line { background: #5ee0f5; }
+.eec-theme .mini-board { background: linear-gradient(135deg,#226a9c,#173c67); border-color: #3c759d; box-shadow: 1px 3px 0 #0a2944, 4px 7px 5px #0004; }
+.eec-theme .mini-board:before { background: repeating-linear-gradient(0deg,transparent 0 3px,#63c2e888 3px 3.5px); }
+.eec-theme .mini-mark { color: #a6ddf4; }
+.eec-theme .mini-led { background: #5ee0f5; box-shadow: 0 0 4px #5ee0f5; }
+.eec-theme :is(.workbench-shell,.configuration-card,.practice-card,.assembly-card,.example-note) { background: #141821; border-color: #2c374a; color: #dbe5f2; box-shadow: 0 8px 28px #0002; }
+.eec-theme .workbench-shell:fullscreen { background: #0c0e13; }
+.eec-theme :is(.bench-toolbar,.panel-heading,.source-footer,.source-tip,.inspector-tabs,.bench-bottom,.configuration-footer) { background: #171e2b; border-color: #2d3a4f; color: #a9b9cf; }
+.eec-theme .bench-identity strong { color: #e3edf8; }
+.eec-theme .bench-identity > div > span { color: #8facc8; }
+.eec-theme .bench-icon { color: #6fdaef; background: #203c50; }
+.eec-theme :is(.speed-control select,.memory-form > div,.memory-form input,.keyboard-key) { background: #111b29; color: #c0d9ef; border-color: #35485f; }
+.eec-theme :is(.panel-heading,.panel-heading > span:first-child,.source-tip,.source-tip > .keyboard-key) { color: #a0b3cd; }
+.eec-theme .source-state { color: #7ed3dd; }
+.eec-theme .source-state:before { background: #69d4e6; }
+.eec-theme .source-state.dirty { color: #e1ba75; }
+.eec-theme .source-state.dirty:before { background: #e1ba75; }
+.eec-theme .source-panel { border-color: #283547; }
+.eec-theme :is(.source-tip,.hardware-io,.cpu-readout,.pc-readout,.memory-form,.console-label,.disassembly-section > summary,.memory-table .memory-table-head) { background: #111a27; border-color: #2b384c; }
+.eec-theme .live-panel { background: #141c28; border-color: #2b384c; }
+.eec-theme :is(.live-dot,.live-dot.running) { background: #5ee0f5; box-shadow: 0 0 0 3px #5ee0f51a; }
+.eec-theme .state-tag { color: #7bdded; border-color: #2b6274; }
+.eec-theme .state-tag.halted { color: #e5bb79; border-color: #745a35; }
+.eec-theme .bench-board { background: #132132; }
+.eec-theme .board-corner-label { color: #a9c6dc; }
+.eec-theme .board-corner-label > span { color: #6fd8f0; }
+.eec-theme .board-corner-label > small { color: #7e9bb9; }
+.eec-theme :is(.io-title,.io-title code,.led-indicator small,.switch-bank small,.cpu-readout span,.pc-readout > span,.pc-readout > small) { color: #92aac6; }
+.eec-theme .led-indicator > span { background: #253d4c; border-color: #3b6175; box-shadow: inset 0 1px 2px #0005; }
+.eec-theme .led-indicator.on > span { background: #75e5f7; border-color: #bbf5ff; box-shadow: 0 0 8px #5ee0f5bb, 0 0 0 3px #3aa8f51a; }
+.eec-theme .switch-bank button > span { background: #1b2e43; border-color: #456079; }
+.eec-theme .switch-bank button > span:after { background: #758fa9; box-shadow: 0 1px 1px #0004; }
+.eec-theme .switch-bank button.on > span { background: #1a465d; border-color: #62c9e4; }
+.eec-theme .switch-bank button.on > span:after { background: #75e2f4; }
+.eec-theme .cpu-readout > div { border-color: #304156; }
+.eec-theme :is(.cpu-readout strong,.cpu-readout .control-state,.pc-readout > code) { color: #7be1f5; }
+.eec-theme .simulation-message { background: #242318; color: #e6c38a; border-color: #50482c; }
+.eec-theme :is(.error-banner,.simulation-message.is-error) { background: #301e26; color: #f0b0a4; border-color: #613947; }
+.eec-theme .error-banner .icon-button { color: #f0b0a4; }
+.eec-theme .connection-notice { background: #252317; color: #e4bf79; border-color: #574c2b; }
+.eec-theme .inspector-content { background: #101620; scrollbar-color: #36506b transparent; }
+.eec-theme .inspector-tabs button { color: #91a6c0; }
+.eec-theme .inspector-tabs button:hover { background: #213146; color: #bce6f9; }
+.eec-theme .inspector-tabs button[aria-selected="true"] { color: #78e4f6; border-color: #5ee0f5; }
+.eec-theme .inspector-tabs button > i { background: #5ee0f5; }
+.eec-theme .register-item { border-color: #263246; }
+.eec-theme .register-item.changed { background: #173b4c; }
+.eec-theme .register-item b { color: #adc3dd; }
+.eec-theme .register-item small { color: #7e94af; }
+.eec-theme .register-item code { color: #9fe1f2; }
+.eec-theme :is(.inspector-description,.inspector-footnote,.wave-row > span,.wave-axis,.trace-caption,.trace-history > div,.trace-history strong,.trace-history code) { color: #9db0c8; }
+.eec-theme :is(.memory-form label,.memory-table .memory-table-head,.memory-table code:first-child) { color: #9bb2cd; }
+.eec-theme .memory-table code { color: #b4dbef; }
+.eec-theme .memory-table > div { border-color: #263246; }
+.eec-theme .console-label { color: #a6b9d2; }
+.eec-theme .console-label code { color: #7ed6ee; }
+.eec-theme .console-output { background: #0b131e; color: #d2eaf7; }
+.eec-theme .console-output pre { color: #8ee8d4; }
+.eec-theme :is(.console-empty,.console-empty p,.console-empty small,.empty-state,.empty-state p) { color: #a3b7d0; }
+.eec-theme .console-cursor { background: #5ee0f5; }
+.eec-theme .empty-state h4 { color: #d7e5f5; }
+.eec-theme :is(.disassembly-section,.disassembly-scroll td,.disassembly-scroll th,.trace-history > div) { border-color: #273549; }
+.eec-theme :is(.disassembly-section > summary,.summary-count,.disassembly-section .disassembly-hint) { color: #a3b6d0; }
+.eec-theme .disassembly-scroll th { background: #141d2b; color: #a2b5ce; }
+.eec-theme .disassembly-scroll td { color: #9eb4cc; background: #101720; }
+.eec-theme .disassembly-scroll td:nth-child(3) { color: #98bbd6; }
+.eec-theme .disassembly-scroll td:nth-child(4) { color: #bad9ec; }
+.eec-theme .disassembly-scroll td:last-child { color: #879fb9; }
+.eec-theme .disassembly-scroll .current-instruction td { background: #163b4e; color: #acf0fb; }
+.eec-theme .breakpoint { background: #2f475f; border-color: #526d87; }
+.eec-theme .breakpoint:hover { background: #7bcef0; }
+.eec-theme .breakpoint.set { background: #f18c86; border-color: #ffb9b3; }
+.eec-theme .disassembly-empty { color: #8fa4bd; }
+.eec-theme .bench-bottom { color: #91a9c3; }
+.eec-theme .bench-bottom > span > i.connected { background: #5ee0f5; }
+.eec-theme :is(.example-note-label,.example-note > div > span,.open-source-mark,.section-promises > span,.section-promises svg) { color: #82cde3; }
+.eec-theme :is(.example-note > p,.example-note strong,.configuration-card dd) { color: #b9ccdf; }
+.eec-theme .core-story > .story-caption { color: #95aac4; }
+.eec-theme .state-journey > span { background: #19283b; border-color: #30445d; color: #aee4f4; }
+.eec-theme .state-journey b { color: #70bcd7; }
+.eec-theme .state-journey > i { background: #3b566e; }
+.eec-theme .story-callout { background: #122d3e; border-color: #284c64; }
+.eec-theme .story-callout > svg { color: #75d6ed; }
+.eec-theme .story-callout > p { color: #9cc3d6; }
+.eec-theme .story-callout strong { color: #d0e7f3; }
+.eec-theme :is(.configuration-card > .eyebrow,.configuration-card dt,.configuration-title span,.configuration-footer) { color: #9eb3ce; }
+.eec-theme .configuration-title > svg { color: #63d7ef; }
+.eec-theme :is(.configuration-title h3,.core-story h3,.anatomy-heading h3,.anatomy-name strong,.practice-card h3,.assembly-card h3) { color: #e1edf8; }
+.eec-theme .configuration-card dl > div { border-color: #2a384b; }
+.eec-theme :is(.anatomy-heading > p,.anatomy-number,.anatomy-name small,.anatomy-description,.practice-card > p,.practice-card li,.practice-card-bottom > span) { color: #a8b9cf; }
+.eec-theme .anatomy-list button { color: #d9e7f5; border-color: #2d3b50; background: transparent; }
+.eec-theme .anatomy-list button:hover { background: #172638; }
+.eec-theme :is(.anatomy-icon,.practice-icon,.assembly-card .practice-icon) { background: #1b3b51; color: #78d7ef; border-color: #315975; }
+.eec-theme .anatomy-list button > svg { color: #73cce4; }
+.eec-theme .practice-card-top .eyebrow { color: #9db4ce; }
+.eec-theme .practice-card li > span { background: #22394d; color: #a6d9eb; }
+.eec-theme .practice-card-bottom { border-color: #2c3a4e; }
+.eec-theme .assembly-card { background: linear-gradient(130deg,#142333,#141821); }
+.eec-theme .site-footer { background: #090d14; border-color: #27374b; }
+.eec-theme .footer-top > p { color: #c5d6e8; }
+.eec-theme .footer-bottom { color: #8ca2bd; border-color: #243349; }
+.eec-theme .part-detail details { border-color: #344257; }
+.eec-theme .part-detail-foot > span { background: #5ee0f5; }
+.eec-theme .question-progress span { background: #2a3b50; }
+.eec-theme .question-progress span.done { background: #5ee0f5; }
+.eec-theme .activity-panel > .eyebrow { color: #78daef; }
+.eec-theme .activity-panel > .eyebrow > span { color: #93a9c3; }
+.eec-theme .activity-feedback { color: #e5bc7f !important; background: #302a1e; }
+.eec-theme .activity-feedback.success { color: #99e9db !important; background: #18362f; }
+.eec-theme :is(.accessible-parts summary,.accessible-parts button) { color: #9dd9ec; }
+.eec-theme .accessible-parts button { background: #182c40; border-color: #34546e; }
+.eec-theme .activity-success { background: #1b4e57; color: #7be7ed; }
+.eec-theme .parts-tray button { background: #182334; border-color: #35465d; color: #adbed4; }
+.eec-theme .parts-tray button.selected { background: #1b4257; border-color: #5ee0f5; color: #a4ecf7; }
+.eec-theme .parts-tray button:disabled { background: #152b37; color: #7dc7d6; }
+.eec-theme .show-more-instructions { background: #172a3e; color: #82d3ec; border-color: #35536e; }
+.eec-theme .skip-link { background: #5ee0f5; color: #06131e; }
+
+/* CodeMirror's generated theme has hard-coded paper colors in the original editor. */
+.eec-theme .cm-editor { background: #111822 !important; color: #cfdaeb !important; }
+.eec-theme .cm-gutters { background: #111822 !important; color: #637e9c !important; }
+.eec-theme .cm-activeLineGutter { background: #1e3b4f !important; color: #86ddf4 !important; }
+.eec-theme .cm-activeLine { background: #1d2a3b55 !important; }
+.eec-theme .cm-executingLine { background: #194355 !important; box-shadow: inset 3px 0 #5ee0f5 !important; }
+.eec-theme .cm-selectionBackground,
+.eec-theme .cm-focused .cm-selectionBackground { background: #2c506c !important; }
+.eec-theme .cm-cursor { border-left-color: #5ee0f5 !important; }
+.eec-theme .cm-errorMarker { color: #f49b91 !important; }
+.eec-theme .cm-content .cm-line span { color: #acd7e9; }
+.eec-theme .wave-row pattern path { stroke: #304459; }
+.eec-theme .wave-row:nth-child(1) polyline { stroke: #5ee0f5; }
+.eec-theme .wave-row:nth-child(2) polyline { stroke: #91bbef; }
+.eec-theme .wave-row:nth-child(3) polyline { stroke: #e4bd75; }
+.eec-theme .wave-row:nth-child(4) polyline { stroke: #aab4f3; }
+
+@media (max-width: 650px) {
+  .eec-theme .nav-links { background: #111a29; border-color: #2f425b; }
+}
