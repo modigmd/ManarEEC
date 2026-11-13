@@ -752,7 +752,7 @@ export default function App() {
           <div className="outcome-path">
             <div>
               <span className="outcome-icon component-mark-host">
-                <InputButtonMark size={80} />
+                <InputButtonMark size={112} />
               </span>
               <strong>Button input</strong>
               <small>Input bit 0</small>
@@ -760,7 +760,7 @@ export default function App() {
             <i />
             <div>
               <span className="outcome-icon component-mark-host">
-                <ProcessorMark size={80} />
+                <ProcessorMark size={112} />
               </span>
               <strong>PicoRV32 core</strong>
               <small>Read, increment, write</small>
@@ -768,7 +768,7 @@ export default function App() {
             <i />
             <div>
               <span className="outcome-icon component-mark-host">
-                <LedOutputMark size={80} />
+                <LedOutputMark size={112} />
               </span>
               <strong>LED output</strong>
               <small>8-bit binary count</small>

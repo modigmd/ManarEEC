@@ -30,7 +30,7 @@ html {
 }
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 280px;
   line-height: 1.65;
   background-image:
     linear-gradient(#a0bee608 1px, transparent 1px),
@@ -546,8 +546,9 @@ svg {
   max-width: 430px;
 }
 .outcome-path {
+  --component-mark-size: 112px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
 }
@@ -575,11 +576,15 @@ svg {
   margin-bottom: 18px;
 }
 .outcome-icon.component-mark-host {
-  width: 88px;
-  height: 66px;
+  width: var(--component-mark-size);
+  height: var(--component-mark-size);
   border: 0;
   background: transparent;
   box-shadow: none;
+}
+.outcome-icon.component-mark-host > svg {
+  width: 100%;
+  height: 100%;
 }
 .outcome-path strong {
   font-size: 13px;
@@ -596,7 +601,8 @@ svg {
   height: 1px;
   background: linear-gradient(90deg, #28526b, #5ee0f5, #28526b);
   flex-shrink: 0;
-  margin-top: -48px;
+  align-self: flex-start;
+  margin-top: calc(var(--component-mark-size) / 2);
   position: relative;
 }
 .outcome-path > i::after {
@@ -2711,27 +2717,17 @@ summary {
     font-size: 13px;
   }
   .outcome-path {
-    gap: 5px;
+    --component-mark-size: clamp(80px, 24vw, 96px);
+    gap: 4px;
   }
   .outcome-path > i {
-    width: 15px;
-    margin-top: -58px;
+    width: clamp(8px, 3vw, 12px);
   }
   .outcome-icon {
     width: 51px;
     height: 51px;
     border-radius: 10px;
     margin-bottom: 13px;
-  }
-  .outcome-icon.component-mark-host {
-    width: 70px;
-    height: 51px;
-  }
-  .outcome-icon.component-mark-host > svg {
-    width: 70px;
-    height: 70px;
-    max-width: 70px;
-    max-height: 70px;
   }
   .outcome-icon > svg {
     width: 23px;
@@ -2740,11 +2736,11 @@ summary {
   .outcome-path strong {
     font-size: 11px;
     line-height: 1.5;
-    min-height: 33px;
   }
   .outcome-path small {
     font-size: 11px;
     line-height: 1.6;
+    min-height: 3.2em;
   }
   .build-section,
   .understand-section,

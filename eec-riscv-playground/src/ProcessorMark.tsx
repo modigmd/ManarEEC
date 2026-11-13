@@ -135,7 +135,7 @@ function Solid({ paths, className }: { paths: SolidPaths; className: string }) {
   );
 }
 
-/** A decorative package mark; its short hover sweep does not represent simulation activity. */
+/** Decorative processor activity, separate from the workbench's live signals. */
 export default memo(function ProcessorMark({
   size = 80,
   className = "",
