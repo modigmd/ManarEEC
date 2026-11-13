@@ -99,7 +99,7 @@ export default function BoardScene(props: BoardSceneProps) {
     controls.dampingFactor = 0.075;
     controls.minDistance = 6.5;
     controls.maxDistance = 30;
-    controls.maxPolarAngle = Math.PI * 0.88;
+    controls.maxPolarAngle = Math.PI;
     controls.enablePan = true;
     controls.autoRotateSpeed = 0.24;
     controls.target.set(0, 0.42, 0);
@@ -129,6 +129,8 @@ export default function BoardScene(props: BoardSceneProps) {
     const fill = new THREE.DirectionalLight(0x75cfff, 1.15);
     fill.position.set(8, 6, -4);
     scene.add(fill);
+    const undersideFill = new THREE.DirectionalLight(0x9acff1, 0);
+    scene.add(undersideFill, undersideFill.target);
 
     const mat = (
       color: THREE.ColorRepresentation,
@@ -278,6 +280,9 @@ export default function BoardScene(props: BoardSceneProps) {
       return p;
     };
 
+    // Bench props can be removed from the sightline when orbiting below the PCB.
+    const bench = new THREE.Group();
+    scene.add(bench);
     // The mat and all markings are drawn locally, so the scene works without a network.
     const deskTexture = makeTexture(1024, 1024, (ctx) => {
       ctx.fillStyle = "#131c29";
@@ -304,7 +309,7 @@ export default function BoardScene(props: BoardSceneProps) {
       map: deskTexture,
       roughness: 0.86,
     });
-    box(scene, 80, 0.3, 60, 0, -0.34, 0, deskMat, 0.08);
+    box(bench, 80, 0.3, 60, 0, -0.34, 0, deskMat, 0.08);
     const cuttingTexture = makeTexture(2048, 1536, (ctx) => {
       ctx.fillStyle = "#182c3d";
       ctx.fillRect(0, 0, 2048, 1536);
@@ -350,11 +355,11 @@ export default function BoardScene(props: BoardSceneProps) {
       roughness: 0.94,
       metalness: 0,
     });
-    box(scene, 25, 0.075, 18.75, 0, -0.125, 0, matMaterial, 0.15);
+    box(bench, 25, 0.075, 18.75, 0, -0.125, 0, matMaterial, 0.15);
     const matPlane = mesh(
       new THREE.PlaneGeometry(25, 18.75),
       matMaterial,
-      scene,
+      bench,
       0,
       -0.085,
       0,
@@ -387,6 +392,7 @@ export default function BoardScene(props: BoardSceneProps) {
       steps: 1,
     });
     boardGeometry.rotateX(-Math.PI / 2);
+    boardGeometry.computeBoundingBox();
     mesh(boardGeometry, [green, darkGreen], board);
     const boardTexture = makeTexture(2048, 1280, (ctx) => {
       ctx.fillStyle = "#12547d";
@@ -514,9 +520,10 @@ export default function BoardScene(props: BoardSceneProps) {
       undersideMaterial,
       board,
       0,
-      -0.018,
+      boardGeometry.boundingBox!.min.y - 0.003,
       0,
     );
+    // Face outward beneath the bevel so the printed traces remain front-facing.
     underside.rotation.x = Math.PI / 2;
     underside.castShadow = false;
 
@@ -979,7 +986,7 @@ export default function BoardScene(props: BoardSceneProps) {
     // A solder spool, leads, and hand tools establish a real electronics bench.
     const spool = new THREE.Group();
     spool.position.set(-4.9, 0, -5.2);
-    scene.add(spool);
+    bench.add(spool);
     cylinder(spool, 1.25, 0.11, 0, 0.09, 0, cream);
     cylinder(spool, 0.91, 1.08, 0, 0.67, 0, mat("#8a8d86", 0.3, 0.8));
     for (let i = 0; i < 32; i++) {
@@ -1008,7 +1015,7 @@ export default function BoardScene(props: BoardSceneProps) {
     );
     spoolPrint.rotation.z = -0.5;
     lineTube(
-      scene,
+      bench,
       [
         new THREE.Vector3(-4.2, 0.2, -4.4),
         new THREE.Vector3(-3.3, 0.06, -3.5),
@@ -1031,7 +1038,7 @@ export default function BoardScene(props: BoardSceneProps) {
       const group = new THREE.Group();
       group.position.set(x, 0.18, z);
       group.rotation.y = angle;
-      scene.add(group);
+      bench.add(group);
       const body = cylinder(group, 0.12, 2.6, 0, 0, 0, material, 0.15);
       body.rotation.z = Math.PI / 2;
       const grip = cylinder(group, 0.17, 1.0, -0.45, 0, 0, material);
@@ -1052,7 +1059,7 @@ export default function BoardScene(props: BoardSceneProps) {
         ring.rotation.y = Math.PI / 2;
       }
       lineTube(
-        scene,
+        bench,
         [
           new THREE.Vector3(
             x + 1.22 * Math.cos(angle),
@@ -1073,7 +1080,7 @@ export default function BoardScene(props: BoardSceneProps) {
     const tweezers = new THREE.Group();
     tweezers.position.set(-3.9, 0.06, 4.9);
     tweezers.rotation.y = -0.45;
-    scene.add(tweezers);
+    bench.add(tweezers);
     for (const sign of [-1, 1]) {
       const arm = box(
         tweezers,
@@ -1092,7 +1099,7 @@ export default function BoardScene(props: BoardSceneProps) {
     box(tweezers, 0.43, 0.07, 0.3, 0, 0.08, 1.7, silver, 0.04);
     const cableMat = mat("#7f94a5", 0.72);
     lineTube(
-      scene,
+      bench,
       [
         new THREE.Vector3(-4.25, 0.47, 0.95),
         new THREE.Vector3(-5.4, 0.18, 1.1),
@@ -1105,7 +1112,7 @@ export default function BoardScene(props: BoardSceneProps) {
     );
     const usbPlug = new THREE.Group();
     usbPlug.position.set(-4.15, 0.45, 0.95);
-    scene.add(usbPlug);
+    bench.add(usbPlug);
     box(usbPlug, 0.7, 0.35, 0.6, 0, 0, 0, cableMat, 0.11);
     for (let i = 0; i < 4; i++)
       box(usbPlug, 0.06, 0.35, 0.63, -0.15 + i * 0.11, 0, 0, cream, 0.02);
@@ -1113,7 +1120,7 @@ export default function BoardScene(props: BoardSceneProps) {
     const jumper = new THREE.Group();
     jumper.position.set(5.1, 0.05, 3.1);
     jumper.rotation.y = -0.4;
-    scene.add(jumper);
+    bench.add(jumper);
     lineTube(
       jumper,
       [
@@ -1219,6 +1226,9 @@ export default function BoardScene(props: BoardSceneProps) {
     renderer.domElement.addEventListener("pointerdown", pointerDown);
     renderer.domElement.addEventListener("pointerup", pointerUp);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const boardCenter = new THREE.Vector3();
+    const boardNormal = new THREE.Vector3();
+    const boardToCamera = new THREE.Vector3();
     let lastTime = performance.now();
     const frameLoop = (time: number) => {
       if (disposed) return;
@@ -1277,6 +1287,29 @@ export default function BoardScene(props: BoardSceneProps) {
         smoothing,
       );
       board.updateMatrixWorld(true);
+      boardCenter.set(0, 0.065, 0).applyMatrix4(board.matrixWorld);
+      boardNormal.set(0, 1, 0).transformDirection(board.matrixWorld);
+      boardToCamera.copy(camera.position).sub(boardCenter);
+      const aboveBoard = boardToCamera.dot(boardNormal);
+      const topFaceVisible = aboveBoard > 0;
+      const benchWasVisible = bench.visible;
+      // Hysteresis prevents flicker at the board's edge. Also clear the table
+      // when orbiting under an already-flipped board in the Bottom preset.
+      if (aboveBoard < -0.02 || camera.position.y < 0.12) bench.visible = false;
+      else if (aboveBoard > 0.08 && camera.position.y > 0.25)
+        bench.visible = true;
+      movingGeometry ||= bench.visible !== benchWasVisible;
+      undersideFill.target.position.copy(boardCenter);
+      undersideFill.position.copy(boardCenter).addScaledVector(boardNormal, -6);
+      undersideFill.position.x += 3;
+      undersideFill.position.z += 2;
+      undersideFill.intensity =
+        0.75 *
+        THREE.MathUtils.smoothstep(
+          -aboveBoard / Math.max(boardToCamera.length(), 0.001),
+          0,
+          0.3,
+        );
       parts.forEach((part, index) => {
         const assembled =
           !current.assemblyMode ||
@@ -1295,22 +1328,17 @@ export default function BoardScene(props: BoardSceneProps) {
         );
         const label = labelRefs.current[index];
         if (label) {
+          const labelEnabled =
+            (current.labels || current.assemblyMode) && topFaceVisible;
           const anchor = part.anchor.clone();
           anchor.y += current.assemblyMode ? 0 : heightOffset;
           anchor.applyMatrix4(board.matrixWorld);
           anchor.project(camera);
           label.style.transform = `translate(-50%, -100%) translate(${(anchor.x * 0.5 + 0.5) * width}px, ${(-anchor.y * 0.5 + 0.5) * height}px)`;
-          label.style.opacity =
-            (current.labels || current.assemblyMode) && anchor.z < 1
-              ? "1"
-              : "0";
-          label.style.pointerEvents =
-            current.labels || current.assemblyMode ? "auto" : "none";
-          label.setAttribute(
-            "aria-hidden",
-            !current.labels && !current.assemblyMode ? "true" : "false",
-          );
-          label.tabIndex = current.labels || current.assemblyMode ? 0 : -1;
+          label.style.opacity = labelEnabled && anchor.z < 1 ? "1" : "0";
+          label.style.pointerEvents = labelEnabled ? "auto" : "none";
+          label.setAttribute("aria-hidden", labelEnabled ? "false" : "true");
+          label.tabIndex = labelEnabled ? 0 : -1;
           label.dataset.selected = String(current.selectedPart === part.id);
           label.dataset.placed = String(assembled);
         }
@@ -1341,7 +1369,7 @@ export default function BoardScene(props: BoardSceneProps) {
         lamp.light.intensity = lit ? 0.085 : 0;
       });
       const selected = parts.find((p) => p.id === current.selectedPart);
-      selectionRing.visible = !!selected;
+      selectionRing.visible = !!selected && topFaceVisible;
       if (selected) {
         selectionRing.position
           .copy(selected.group.getWorldPosition(new THREE.Vector3()))

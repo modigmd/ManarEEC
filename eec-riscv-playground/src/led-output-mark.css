@@ -142,21 +142,38 @@
 .led-output-mark .is-on .led-output-mark__lens .led-output-mark__bevel {
   stroke: #d5fcff;
 }
-.led-output-mark:hover .led-output-mark__assembly,
-.outcome-path > div:hover .led-output-mark__assembly,
-.outcome-path > div:focus-within .led-output-mark__assembly {
-  transform: translateY(-3px);
+.led-output-mark__illumination {
+  opacity: 0;
+  filter: drop-shadow(0 0 1.2px #5ee0f580);
+  animation: led-output-chase var(--component-demo-duration, 3.6s) linear
+    infinite;
+  animation-delay: calc(
+    var(--led-step) * var(--component-demo-duration, 3.6s) / 8
+  );
 }
-.led-output-mark:hover .led-output-mark__shadow,
-.outcome-path > div:hover .led-output-mark__shadow,
-.outcome-path > div:focus-within .led-output-mark__shadow {
-  opacity: 0.32;
-  transform: translateY(2px) scale(1.03);
+@keyframes led-output-chase {
+  0%,
+  7% {
+    opacity: 1;
+  }
+  18%,
+  100% {
+    opacity: 0;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .led-output-mark__assembly,
-  .led-output-mark__shadow {
+  .led-output-mark__shadow,
+  .led-output-mark__illumination {
+    animation: none !important;
     transition: none !important;
     transform: none !important;
+  }
+  .led-output-mark__illumination {
+    opacity: 0;
+    filter: none;
+  }
+  .is-rest-on .led-output-mark__illumination {
+    opacity: 1;
   }
 }

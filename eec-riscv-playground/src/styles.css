@@ -371,23 +371,6 @@ svg {
 .hero-actions .text-link:hover {
   color: var(--cyan);
 }
-.hero-facts {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 19px;
-  margin-top: 26px;
-}
-.hero-facts > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 11px;
-  color: #8393a9;
-}
-.hero-facts svg {
-  color: #65b4cf;
-}
 .hero-instrument {
   border: 1px solid var(--line-2);
   border-radius: 14px;
@@ -641,30 +624,6 @@ svg {
   background: #7bebfa;
   border-color: #b0f5ff;
   box-shadow: 0 0 10px #5ee0f544;
-}
-.project-requirements {
-  grid-column: 1/-1;
-  padding-top: 23px;
-  border-top: 1px solid #242b3899;
-  display: flex;
-  gap: 27px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.project-requirements > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  color: #99a8bb;
-}
-.project-requirements svg {
-  color: #6cd6c0;
-}
-.project-requirements .requirements-note {
-  margin-left: auto;
-  color: #728299;
-  font-size: 11px;
 }
 
 /* A clear build path stays beside the working tools. */
@@ -2184,12 +2143,6 @@ summary {
   .hero-board {
     height: 320px;
   }
-  .hero-facts {
-    gap: 14px;
-  }
-  .hero-facts > span {
-    font-size: 11px;
-  }
   .hero-actions {
     gap: 17px;
   }
@@ -2221,9 +2174,6 @@ summary {
   }
   .outcome-path > i {
     width: 17px;
-  }
-  .project-requirements {
-    gap: 18px;
   }
   .workspace-grid {
     grid-template-columns: 165px minmax(290px, 0.95fr) minmax(0, 1.05fr);
@@ -2428,9 +2378,6 @@ summary {
   .hero-actions .text-link {
     font-size: 13px;
   }
-  .hero-facts > span {
-    font-size: 11px;
-  }
   .hero-instrument {
     width: 100%;
   }
@@ -2483,12 +2430,6 @@ summary {
   }
   .outcome-path strong {
     font-size: 13px;
-  }
-  .project-requirements {
-    gap: 14px 20px;
-  }
-  .project-requirements .requirements-note {
-    margin-left: 0;
   }
   .section-heading {
     gap: 30px;
@@ -2698,18 +2639,6 @@ summary {
     width: 15px;
     height: 15px;
   }
-  .hero-facts {
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .hero-facts > span {
-    font-size: 11px;
-    gap: 5px;
-  }
-  .hero-facts svg {
-    width: 12px;
-    height: 12px;
-  }
   .hero-instrument {
     border-radius: 9px;
   }
@@ -2816,17 +2745,6 @@ summary {
   .outcome-path small {
     font-size: 11px;
     line-height: 1.6;
-  }
-  .project-requirements {
-    padding-top: 20px;
-    gap: 12px 15px;
-  }
-  .project-requirements > span {
-    font-size: 11px;
-    gap: 6px;
-  }
-  .project-requirements .requirements-note {
-    font-size: 11px;
   }
   .build-section,
   .understand-section,

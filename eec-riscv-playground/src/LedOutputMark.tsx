@@ -107,7 +107,7 @@ function Solid({ paths, className }: { paths: SolidPaths; className: string }) {
   );
 }
 
-/** Decorative output hardware; the fixed 42 pattern does not represent live simulation. */
+/** Decorative LED chase, separate from the workbench's live output. */
 export default memo(function LedOutputMark({
   size = 80,
   className = "",
@@ -181,12 +181,21 @@ export default memo(function LedOutputMark({
           </g>
         ))}
         {LEDS.map((led) => (
-          <g key={led.index} className={led.lit ? "is-on" : "is-off"}>
+          <g
+            key={led.index}
+            className={`led-output-mark__led${led.lit ? " is-rest-on" : ""}`}
+          >
             {led.pads.map((paths, i) => (
               <Solid key={i} paths={paths} className="led-output-mark__pad" />
             ))}
             <Solid paths={led.housing} className="led-output-mark__housing" />
             <Solid paths={led.lens} className="led-output-mark__lens" />
+            <g
+              className="led-output-mark__illumination is-on"
+              style={{ "--led-step": led.index } as CSSProperties}
+            >
+              <Solid paths={led.lens} className="led-output-mark__lens" />
+            </g>
           </g>
         ))}
       </g>

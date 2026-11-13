@@ -664,19 +664,6 @@ export default function App() {
                   View instruction flow
                 </button>
               </div>
-              <div className="hero-facts">
-                <span>
-                  <Icon name="flag" size={14} />4 guided steps
-                </span>
-                <span>
-                  <Icon name="code" size={14} />
-                  Open-source core
-                </span>
-                <span>
-                  <Icon name="cube" size={14} />
-                  No board needed
-                </span>
-              </div>
             </div>
             <div className="hero-instrument">
               <div className="instrument-top">
@@ -786,21 +773,6 @@ export default function App() {
               <strong>LED output</strong>
               <small>8-bit binary count</small>
             </div>
-          </div>
-          <div className="project-requirements">
-            <span>
-              <Icon name="check" size={14} />A modern browser
-            </span>
-            <span>
-              <Icon name="check" size={14} />
-              {IS_LOCAL
-                ? "A running local simulator"
-                : "An internet connection"}
-            </span>
-            <span>
-              <Icon name="check" size={14} />
-              No assembly experience required
-            </span>
           </div>
         </section>
 
@@ -1157,6 +1129,16 @@ export default function App() {
                             }}
                           >
                             Top
+                          </button>
+                          <button
+                            className={camera === "bottom" ? "selected" : ""}
+                            aria-pressed={camera === "bottom"}
+                            onClick={() => {
+                              setCamera("bottom");
+                              setSelectedPart(null);
+                            }}
+                          >
+                            Bottom
                           </button>
                           <button
                             className={labels ? "selected" : ""}

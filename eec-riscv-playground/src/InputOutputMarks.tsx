@@ -8,6 +8,7 @@ import {
   onTop,
   planOutline,
   ring,
+  sideArc,
   slabOf,
   type Plan,
   type SolidPaths,
@@ -44,6 +45,7 @@ const CAP_COLLAR = cylinder(0, 0, 12, 10.9, 2.1, P, 40, 0.4);
 const CAP = cylinder(0, 0, 10.7, 13, 6.2, P, 48, 0.75);
 const CAP_INSET = ring(0, 0, 8.3, 19.24, P, 40);
 const CAP_SEAM = ring(0, 0, 10.2, 19.25, P, 40);
+const CAP_OPENING_CLIP = `${sideArc(0, 0, 10.7, 13, P, 48)}L-128 -128L256 -128Z`;
 const MOUNTS = [
   [-28, -23],
   [28, -23],
@@ -72,7 +74,7 @@ const RIVETS = [-13.8, 13.8].flatMap((y) =>
 );
 const TERMINALS = [-1, 1]
   .flatMap((side) =>
-    [-10.5, 10.5].map((y, index) => {
+    [-10.5, 10.5].map((y) => {
       const foot: Plan = {
         x: side < 0 ? -25 : 17,
         y: y - 2.2,
@@ -82,7 +84,6 @@ const TERMINALS = [-1, 1]
       };
       return {
         near: side > 0,
-        delay: (side < 0 ? index : index + 2) * 0.09,
         foot: slabOf(foot, 2.55, 1.1, P, 3, 0.25),
         bend: slabOf(
           { ...foot, x: side < 0 ? -19.3 : 17, w: 2.3 },
@@ -159,7 +160,7 @@ function Solid({ paths, material }: { paths: SolidPaths; material: string }) {
   );
 }
 
-/** Decorative tactile switch; the hover response is unrelated to simulator input. */
+/** Decorative press-and-release cycle; it does not change simulator input. */
 export const InputButtonMark = memo(function InputButtonMark({
   size = 80,
   className = "",
@@ -174,11 +175,7 @@ export const InputButtonMark = memo(function InputButtonMark({
         <g key={index}>
           <Solid paths={terminal.foot} material="metal" />
           <Solid paths={terminal.bend} material="metal" />
-          <path
-            className="io-mark__signal"
-            d={terminal.shine}
-            style={{ "--io-delay": `${terminal.delay}s` } as CSSProperties}
-          />
+          <path className="io-mark__signal" d={terminal.shine} />
         </g>
       ),
     );
@@ -192,6 +189,9 @@ export const InputButtonMark = memo(function InputButtonMark({
       focusable="false"
     >
       <defs>
+        <clipPath id={`input-opening-${id}`}>
+          <path d={CAP_OPENING_CLIP} />
+        </clipPath>
         <filter id={`input-shadow-${id}`}>
           <feGaussianBlur stdDeviation="3.2" />
         </filter>
@@ -241,9 +241,13 @@ export const InputButtonMark = memo(function InputButtonMark({
           </g>
         ))}
         <Solid paths={CAP_COLLAR} material="case" />
-        <Solid paths={CAP} material="cap" />
-        <path className="io-mark__cap-inset" d={CAP_INSET} />
-        <path className="io-mark__cap-seam" d={CAP_SEAM} />
+        <g clipPath={`url(#input-opening-${id})`}>
+          <g className="io-mark__plunger">
+            <Solid paths={CAP} material="cap" />
+            <path className="io-mark__cap-inset" d={CAP_INSET} />
+            <path className="io-mark__cap-seam" d={CAP_SEAM} />
+          </g>
+        </g>
         <Solid paths={HEADER} material="case" />
         {HEADER_PINS.map((pin, index) => (
           <g key={index}>
