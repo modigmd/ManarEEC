@@ -4,6 +4,7 @@ import AssemblyEditor from "./AssemblyEditor";
 import BoardScene from "./BoardScene";
 import InstructionFlow from "./InstructionFlow";
 import ProcessorMark from "./ProcessorMark";
+import { InputButtonMark, LedOutputMark } from "./InputOutputMarks";
 import Icon from "./icons";
 import {
   lessons,
@@ -129,14 +130,12 @@ function initialCompleted(): LessonId[] {
   }
 }
 function go(id: string) {
-  document
-    .getElementById(id)
-    ?.scrollIntoView({
-      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "instant"
-        : "smooth",
-      block: "start",
-    });
+  document.getElementById(id)?.scrollIntoView({
+    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "instant"
+      : "smooth",
+    block: "start",
+  });
 }
 function download(filename: string, bytes: BlobPart, mime: string) {
   const url = URL.createObjectURL(new Blob([bytes], { type: mime }));
@@ -169,7 +168,7 @@ function SignalView({ trace }: { trace: TraceSample[] }) {
     return (
       <div className="panel-empty">
         <Icon name="signals" size={36} />
-        <h4>Give the clock a little work.</h4>
+        <h4>No signal trace recorded</h4>
         <p>
           Run or step your program to record real memory-bus and retirement
           signals.
@@ -542,7 +541,7 @@ export default function App() {
   }
   function exportProject() {
     if (!image) return;
-    const readme = `# ManarEEC — ${lesson.title}\n\nThis is a simulation project for the original PicoRV32 RV32IM core.\n\n## Run it\n1. Start ManarEEC locally (npm start in its source directory).\n2. Open http://127.0.0.1:5174.\n3. Paste program.s into the editor, click Assemble & Load, then Run.\n4. For the counter, click Press button while the processor is running.\n\nprogram.bin is a raw little-endian RV32IM image loaded at address zero. It is firmware, not an FPGA bitstream.\n\n## Memory map\n0x00000000–0x0000ffff: 64 KiB RAM\n0x10000000: console character output\n0x10000004: eight output LED bits\n0x10000008: eight input switch bits\n\n## Expected result\n${lesson.expected}\n\n## How to build\n${lesson.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}\n\n## Sources\nEEC directory: ${DIRECTORY}\nPicoRV32: https://github.com/YosysHQ/picorv32\nVerilator: https://verilator.org/\nGNU Binutils: https://www.gnu.org/software/binutils/\n\nPhysical FPGA deployment additionally requires a board-specific top-level design, RTL RAM and peripherals, clock/reset design, pin constraints, synthesis, place-and-route, and a programmer.\n`;
+    const readme = `# ManarEEC: ${lesson.title}\n\nThis is a simulation project for the original PicoRV32 RV32IM core.\n\n## Run it\n1. Start ManarEEC locally (npm start in its source directory).\n2. Open http://127.0.0.1:5174.\n3. Paste program.s into the editor, click Assemble & Load, then Run.\n4. For the counter, click Press button while the processor is running.\n\nprogram.bin is a raw little-endian RV32IM image loaded at address zero. It is firmware, not an FPGA bitstream.\n\n## Memory map\n0x00000000–0x0000ffff: 64 KiB RAM\n0x10000000: console character output\n0x10000004: eight output LED bits\n0x10000008: eight input switch bits\n\n## Expected result\n${lesson.expected}\n\n## How to build\n${lesson.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}\n\n## Sources\nEEC directory: ${DIRECTORY}\nPicoRV32: https://github.com/YosysHQ/picorv32\nVerilator: https://verilator.org/\nGNU Binutils: https://www.gnu.org/software/binutils/\n\nPhysical FPGA deployment additionally requires a board-specific top-level design, RTL RAM and peripherals, clock/reset design, pin constraints, synthesis, place-and-route, and a programmer.\n`;
     const archive = zipSync(
       {
         "program.s": strToU8(compiledSource),
@@ -597,11 +596,7 @@ export default function App() {
       </a>
       <header className="site-header">
         <div className="header-inner">
-          <a
-            className="eec-brand"
-            href="#project"
-            aria-label="ManarEEC — home"
-          >
+          <a className="eec-brand" href="#project" aria-label="ManarEEC home">
             <img src="/eec-logo.svg" alt="" />
             <strong>EEC</strong>
             <span>
@@ -648,16 +643,13 @@ export default function App() {
           <div className="hero-grid">
             <div className="hero-copy">
               <h1>
-                From an open core
-                <br />{" "}
-                to your first
-                <br />{" "}
-                <em>working project.</em>
+                PicoRV32
+                <br /> <em>LED counter</em>
               </h1>
               <p className="hero-lede">
-                Build a button-controlled LED counter with the PicoRV32 core.
-                Follow your code through a virtual board, see what each
-                instruction does, and make it your own.
+                Build a button-controlled LED counter on a virtual PicoRV32
+                system. Edit the assembly, run the processor, and inspect the
+                instruction trace.
               </p>
               <div className="hero-actions">
                 <button
@@ -669,7 +661,7 @@ export default function App() {
                 </button>
                 <button className="text-link" onClick={() => go("understand")}>
                   <Icon name="chip" size={17} />
-                  See inside the core
+                  View instruction flow
                 </button>
               </div>
               <div className="hero-facts">
@@ -737,10 +729,10 @@ export default function App() {
               <Icon name="book" size={21} />
             </div>
             <p>
-              <strong>You found the tools. Here’s how to use them.</strong>
+              <strong>PicoRV32 from the EEC directory</strong>
               <span>
-                A hands-on companion to the EEC open hardware directory, focused
-                on one complete RISC-V project.
+                Use the core, GNU assembler, and Verilator in a guided LED
+                counter project.
               </span>
             </p>
             <a
@@ -760,9 +752,9 @@ export default function App() {
         >
           <div className="overview-heading">
             <h2 id="overview-title">
-              One button.
+              Button-controlled
               <br />
-              Eight LEDs. <em>Your code.</em>
+              <em>LED counter</em>
             </h2>
             <p>
               Every press adds one to an eight-bit counter. The processor reads
@@ -772,30 +764,27 @@ export default function App() {
           </div>
           <div className="outcome-path">
             <div>
-              <span className="outcome-icon">
-                <Icon name="switches" size={27} />
+              <span className="outcome-icon component-mark-host">
+                <InputButtonMark size={80} />
               </span>
-              <strong>Press a button</strong>
-              <small>The input becomes a bit</small>
+              <strong>Button input</strong>
+              <small>Input bit 0</small>
             </div>
             <i />
             <div>
-              <span className="outcome-icon processor-mark-host">
+              <span className="outcome-icon component-mark-host">
                 <ProcessorMark size={80} />
               </span>
-              <strong>The core does the work</strong>
-              <small>Read → add → write</small>
+              <strong>PicoRV32 core</strong>
+              <small>Read, increment, write</small>
             </div>
             <i />
             <div>
-              <span className="outcome-icon led-symbol">
-                <i />
-                <i />
-                <i />
-                <i />
+              <span className="outcome-icon component-mark-host">
+                <LedOutputMark size={80} />
               </span>
-              <strong>See the result</strong>
-              <small>Binary becomes light</small>
+              <strong>LED output</strong>
+              <small>8-bit binary count</small>
             </div>
           </div>
           <div className="project-requirements">
@@ -804,13 +793,13 @@ export default function App() {
             </span>
             <span>
               <Icon name="check" size={14} />
-              {IS_LOCAL ? "A running local simulator" : "An internet connection"}
+              {IS_LOCAL
+                ? "A running local simulator"
+                : "An internet connection"}
             </span>
             <span>
-              <Icon name="check" size={14} />A little curiosity
-            </span>
-            <span className="requirements-note">
-              Start with zero assembly experience.
+              <Icon name="check" size={14} />
+              No assembly experience required
             </span>
           </div>
         </section>
@@ -819,15 +808,14 @@ export default function App() {
           <SectionHeading
             title={
               <>
-                A small project.
-                <br />
-                <em>Everything explained.</em>
+                Project <em>workbench</em>
               </>
             }
           >
             <p>
-              Each step gives you a goal, the code to try, and a result you can
-              check. The same original PicoRV32 core runs every program.
+              Complete four exercises using the same PicoRV32 core. Each
+              exercise includes code, instructions, and a result checked against
+              the processor state.
             </p>
             <span className="section-note">
               <span className="signal-dot" />
@@ -1432,19 +1420,18 @@ export default function App() {
                 <Icon name="check" size={26} />
               </span>
               <div>
-                <h3>You built it. Now make it yours.</h3>
+                <h3>Project complete</h3>
                 <p>
-                  You’ve read inputs, changed a register, and driven real
-                  simulated outputs. Try changing <code>addi s0, s0, 1</code> to{" "}
-                  <code>addi s0, s0, -1</code> in the counter. What will the
-                  first press show?
+                  All four exercises passed. To test a decrementing counter,
+                  change <code>addi s0, s0, 1</code> to{" "}
+                  <code>addi s0, s0, -1</code> and inspect the first output.
                 </p>
               </div>
               <button
                 className="button button-primary"
                 onClick={() => selectLesson("counter")}
               >
-                Back to your counter
+                Open counter
                 <Icon name="arrow" size={15} />
               </button>
             </div>
@@ -1455,16 +1442,14 @@ export default function App() {
           <SectionHeading
             title={
               <>
-                Watch one instruction
-                <br />
-                <em>make something happen.</em>
+                Instruction <em>execution</em>
               </>
             }
           >
             <p>
               <code>add t2, t0, t1</code> means: read two registers, add their
-              values, and store the answer. Follow the four parts of that
-              journey.
+              values, and store the answer. The diagram shows each operation and
+              the recorded register values.
             </p>
           </SectionHeading>
           <div className="example-flow">
@@ -1494,7 +1479,7 @@ export default function App() {
           <div className="multicycle-note">
             <Icon name="clock" size={22} />
             <p>
-              <strong>One instruction, several clock cycles.</strong>
+              <strong>Multicycle execution</strong>
               PicoRV32 reuses its hardware over several clock cycles. This
               replay explains one instruction’s data flow. The workbench’s Cycle
               control shows the actual hardware states.
@@ -1502,7 +1487,7 @@ export default function App() {
           </div>
           <div className="concept-cards">
             <article>
-              <h3>RISC-V is the instruction set.</h3>
+              <h3>RISC-V instruction set</h3>
               <p>
                 It defines the operations a program can ask a processor to
                 perform. Assembly is the readable form of those instructions.
@@ -1510,7 +1495,7 @@ export default function App() {
               <code>add t2, t0, t1</code>
             </article>
             <article>
-              <h3>PicoRV32 is the core.</h3>
+              <h3>PicoRV32 processor core</h3>
               <p>
                 It is an open Verilog implementation of a RISC-V CPU. Verilator
                 runs that original hardware description in this lab.
@@ -1518,7 +1503,7 @@ export default function App() {
               <code>Verilog → model → execution</code>
             </article>
             <article>
-              <h3>An address can be a device.</h3>
+              <h3>Memory-mapped I/O</h3>
               <p>
                 A store to the output address sets LED bits. A load from the
                 input address reads the switches. That is memory-mapped I/O.
@@ -1595,16 +1580,13 @@ export default function App() {
           <SectionHeading
             title={
               <>
-                The directory,
-                <br />
-                <em>put to work.</em>
+                Tools and <em>source code</em>
               </>
             }
           >
             <p>
-              The EEC directory organizes the open hardware ecosystem. This
-              project gives a few of those tools a specific job, then shows
-              where you can go next.
+              PicoRV32, Verilator, and GNU Binutils run this project. Yosys and
+              nextpnr support the later steps of a physical FPGA build.
             </p>
             <a
               className="text-link"
@@ -1664,7 +1646,7 @@ export default function App() {
           </div>
           <div className="directory-explained">
             <div>
-              <h3>The EEC directory maps open hardware.</h3>
+              <h3>EEC hardware directory</h3>
               <p>
                 The directory brings together 323 tools and designs in five main
                 sections: process design kits (PDKs), compilers, design tools,
@@ -1673,12 +1655,11 @@ export default function App() {
               </p>
             </div>
             <div>
-              <h3>This playground guides a complete project.</h3>
+              <h3>ManarEEC project guide</h3>
               <p>
-                One selected core, a concrete goal, guided instructions, a
-                working environment, visual explanations, and checks on the
-                result. The directory helps you discover; the playground helps
-                you put it into practice.
+                This guide uses PicoRV32 to build a button-controlled LED
+                counter. It includes assembly exercises, a processor workbench,
+                and checks against the hardware model.
               </p>
             </div>
           </div>
@@ -1687,20 +1668,18 @@ export default function App() {
         <section className="next-section section-wrap" id="next">
           <div className="next-heading">
             <h2>
-              From a virtual system
-              <br />
-              <em>toward real hardware.</em>
+              Running on an <em>FPGA</em>
             </h2>
             <p>
-              You’ve built the firmware and understood the flow. Putting it on
-              an FPGA is a separate, board-specific hardware project.
+              Running this program on a physical FPGA requires additional
+              hardware design and configuration for the selected board.
             </p>
           </div>
           <ol className="hardware-path">
             <li>
               <span>01</span>
               <div>
-                <h3>Choose your FPGA board.</h3>
+                <h3>Select an FPGA board</h3>
                 <p>
                   Check its device family, clock, reset, LED pins, button
                   wiring, and programming method.
@@ -1710,7 +1689,7 @@ export default function App() {
             <li>
               <span>02</span>
               <div>
-                <h3>Build the surrounding hardware.</h3>
+                <h3>Connect memory and peripherals</h3>
                 <p>
                   Connect PicoRV32 to RTL RAM and I/O registers. Recreate the
                   memory map, synchronize the button, and debounce the physical
@@ -1721,7 +1700,7 @@ export default function App() {
             <li>
               <span>03</span>
               <div>
-                <h3>Synthesize, place, and route.</h3>
+                <h3>Synthesize, place, and route</h3>
                 <p>
                   Use a supported toolchain such as Yosys and nextpnr, with
                   constraints for your exact device and board.
@@ -1731,7 +1710,7 @@ export default function App() {
             <li>
               <span>04</span>
               <div>
-                <h3>Program and test the board.</h3>
+                <h3>Program and test the board</h3>
                 <p>
                   Generate the FPGA bitstream and load it using the board’s
                   supported programmer. The downloaded <code>.bin</code> here is
@@ -1762,7 +1741,7 @@ export default function App() {
           <a
             className="eec-brand"
             href="#project"
-            aria-label="ManarEEC — back to top"
+            aria-label="ManarEEC back to top"
           >
             <img src="/eec-logo.svg" alt="" />
             <strong>EEC</strong>
@@ -1794,9 +1773,7 @@ export default function App() {
           </nav>
         </div>
         <div className="footer-bottom">
-          <span>
-            A learning companion using EEC’s original logo and colors.
-          </span>
+          <span>A project guide based on the EEC open hardware directory.</span>
         </div>
       </footer>
     </>

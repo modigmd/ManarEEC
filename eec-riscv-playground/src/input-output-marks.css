@@ -1,0 +1,173 @@
+.io-mark {
+  display: block;
+  flex: none;
+  overflow: visible;
+  isolation: isolate;
+}
+.io-mark__assembly {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 500ms cubic-bezier(0.22, 0.7, 0.3, 1);
+}
+.io-mark__shadow {
+  fill: #000;
+  opacity: 0.46;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 500ms,
+    transform 500ms;
+}
+.io-mark__solid {
+  --io-top: #293d50;
+  --io-low: #101a27;
+  --io-side0: #101a27;
+  --io-side1: #152538;
+  --io-side2: #1d3044;
+  --io-side3: #263c50;
+  --io-edge: #5b7993;
+}
+.io-mark__fill {
+  fill: var(--io-low);
+}
+.io-mark__top {
+  fill: var(--io-top);
+}
+.io-mark__shade--0 {
+  fill: var(--io-side0);
+}
+.io-mark__shade--1 {
+  fill: var(--io-side1);
+}
+.io-mark__shade--2 {
+  fill: var(--io-side2);
+}
+.io-mark__shade--3 {
+  fill: var(--io-side3);
+}
+.io-mark__edge {
+  fill: none;
+  stroke: var(--io-edge);
+  stroke-width: 0.65;
+  stroke-linejoin: round;
+}
+.io-mark__bevel {
+  fill: none;
+  stroke: #a1b8cb66;
+  stroke-width: 0.6;
+}
+.io-mark__board {
+  --io-top: #203b4c;
+  --io-low: #102433;
+  --io-side0: #102433;
+  --io-side1: #152e3d;
+  --io-side2: #1a3545;
+  --io-side3: #24485a;
+  --io-edge: #50849c;
+}
+.io-mark__metal {
+  --io-top: var(--io-metal, #a8bdcd);
+  --io-low: #536e86;
+  --io-side0: #364d65;
+  --io-side1: #48637b;
+  --io-side2: #68839a;
+  --io-side3: #819aaf;
+  --io-edge: #b1c4d3;
+}
+.io-mark__metal .io-mark__edge {
+  stroke-width: 0.45;
+}
+.io-mark__rubber {
+  --io-top: #223243;
+  --io-low: #0a121d;
+  --io-side0: #0a121d;
+  --io-side1: #0d1926;
+  --io-side2: #142333;
+  --io-side3: #1b2d3e;
+  --io-edge: #32495e;
+}
+.io-mark__cap {
+  --io-top: #386a82;
+  --io-low: #16384d;
+  --io-side0: #16384d;
+  --io-side1: #1f455c;
+  --io-side2: #28566e;
+  --io-side3: #33657e;
+  --io-edge: #75c7dc;
+}
+.io-mark__resistor {
+  --io-top: #38556b;
+  --io-edge: #7794aa;
+}
+.io-mark__traces {
+  fill: none;
+  stroke: #5fb4d5;
+  stroke-width: 0.7;
+  opacity: 0.65;
+  stroke-linejoin: round;
+}
+.io-mark__bore,
+.io-mark__socket {
+  fill: #0c1722;
+  stroke: #607c93;
+  stroke-width: 0.45;
+}
+.io-mark__slot {
+  fill: none;
+  stroke: #3d566d;
+  stroke-width: 0.45;
+}
+.io-mark__cap-inset {
+  fill: none;
+  stroke: #6bb8cb66;
+  stroke-width: 0.6;
+}
+.io-mark__cap-seam {
+  fill: none;
+  stroke: #a2e9f373;
+  stroke-width: 0.45;
+}
+.io-mark__signal {
+  fill: #5ee0f5;
+  stroke: #a8f0ff;
+  stroke-width: 0.4;
+  opacity: 0;
+}
+.io-mark:hover .io-mark__assembly,
+.outcome-path > div:hover .io-mark__assembly,
+.outcome-path > div:focus-within .io-mark__assembly {
+  transform: translateY(-3px);
+}
+.io-mark:hover .io-mark__shadow,
+.outcome-path > div:hover .io-mark__shadow,
+.outcome-path > div:focus-within .io-mark__shadow {
+  opacity: 0.32;
+  transform: translateY(2px) scale(1.03);
+}
+.io-mark:hover .io-mark__signal,
+.outcome-path > div:hover .io-mark__signal,
+.outcome-path > div:focus-within .io-mark__signal {
+  animation: input-pin-sweep 700ms ease-in-out var(--io-delay) 1 both;
+}
+@keyframes input-pin-sweep {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  35%,
+  55% {
+    opacity: 0.92;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .io-mark__assembly,
+  .io-mark__shadow,
+  .io-mark__signal {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .io-mark__signal {
+    opacity: 0 !important;
+  }
+}

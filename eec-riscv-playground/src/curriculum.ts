@@ -40,9 +40,9 @@ export const exampleRetirement: RetiredInstruction = {
 
 export const projectOverview = {
   title: "Build a button-controlled LED counter",
-  subtitle: "One open-source core. One complete project.",
+  subtitle: "PicoRV32 input and output in four lessons",
   description:
-    "Write a program that reads a button, counts each new press, and shows the count on eight LEDs. See how your assembly becomes instructions and how those instructions move data through PicoRV32.",
+    "Program PicoRV32 to read a button, count presses, and display the count on eight LEDs. Inspect the registers and memory transactions as the program runs.",
   outcome:
     "Each press adds one. The eight LEDs display the count in binary, from 0 to 255.",
   prerequisites: [
@@ -51,10 +51,10 @@ export const projectOverview = {
     "No FPGA board required for this guided simulation",
   ],
   learn: [
-    "Read and write CPU registers",
-    "Connect a program to memory-mapped input and output",
-    "Use a loop and detect a button edge",
-    "Verify a working project against real processor state",
+    "Use registers for operands and results",
+    "Read and write memory-mapped input and output",
+    "Detect button presses in a polling loop",
+    "Check the counter using processor state",
   ],
   category: "Designs & Generators / CPUs / PicoRV32",
   duration: "4 guided steps",
@@ -64,14 +64,14 @@ export const lessons: Lesson[] = [
   {
     id: "add",
     number: "01",
-    title: "Follow your first instruction",
+    title: "Register arithmetic",
     short: "Code → registers",
-    aim: "Make the processor calculate 7 + 35 and find the result in t2.",
-    why: "Registers are the CPU’s small, fast working storage. The ADD instruction reads two source registers and writes their sum into a destination register. This is the same mechanism the counter will use to increment its value.",
+    aim: "Add 7 and 35, then inspect the result in t2.",
+    why: "Registers hold the values an instruction uses. ADD reads two source registers and writes their sum to a destination register. The counter uses register arithmetic to increment its value.",
     steps: [
-      "Read the program below. li gives a register a value; add combines two registers.",
+      "Read the program below. li gives a register a value. add adds the values in two registers.",
       "Choose Assemble & Load. The assembler converts these lines to RISC-V machine instructions.",
-      "Choose Instruction three times, or Run. Open Inside CPU to follow the most recently completed instruction.",
+      "Step through three instructions, or choose Run. Open Inside CPU to inspect the last completed instruction.",
       "Find t2 (x7) in Registers. The result should be 42, shown as 0x0000002a in hexadecimal.",
     ],
     source: `.section .text
@@ -83,19 +83,19 @@ _start:
     ebreak             # stop and inspect the result
 `,
     expected: "t0 = 7 · t1 = 35 · t2 = 42",
-    checkpoint: "The real core has written 42 to t2.",
+    checkpoint: "Register t2 contains 42.",
     tip: "li is an assembler pseudo-instruction. For these small values GNU emits addi with x0, the register that always reads zero. The replay shows the actual machine instruction.",
   },
   {
     id: "led",
     number: "02",
-    title: "Turn a value into light",
+    title: "LED output",
     short: "Registers → LEDs",
     aim: "Display the number 42 on the eight output LEDs.",
-    why: "A store can send data to a peripheral instead of RAM. This lab maps its output register to 0x10000004. Writing a value there changes the eight LEDs. The CPU uses its normal memory bus to do it.",
+    why: "The LED output register is mapped to 0x10000004. A store to this address sets the eight LED bits through the processor’s memory bus.",
     steps: [
       "Find the address 0x10000004 below. That is the virtual LED output register.",
-      "Assemble & Load, then Run. sw stores the value in t1 to that address.",
+      "Assemble & Load, then Run. sw writes the value in t1 to that address.",
       "Read the LEDs from bit 7 to bit 0: 00101010. Bits 5, 3, and 1 should be on.",
       "In Inside CPU, inspect the store’s memory address and write data. Registers and peripherals are different places to store a value.",
     ],
@@ -114,13 +114,13 @@ _start:
   {
     id: "input",
     number: "03",
-    title: "Read the outside world",
+    title: "Input switches",
     short: "Button → registers",
     aim: "Read input switch 0 into a0 so the program can react to a button.",
-    why: "A load can read an input peripheral. The eight switches live at 0x10000008. AND with 1 keeps just bit 0; the other seven switches cannot affect the button value.",
+    why: "The input register at 0x10000008 contains the eight switch states. lw reads this register. andi with 1 keeps bit 0 and clears the other seven bits.",
     steps: [
       "Assemble & Load, then turn input switch 0 on before running.",
-      "Run the program. lw reads the input register; andi isolates bit 0.",
+      "Run the program. lw reads the input register and andi isolates bit 0.",
       "Open Registers and find a0 (x10). It should contain 1.",
       "To compare, reset, turn switch 0 off, and run again. a0 should now be zero.",
     ],
@@ -133,21 +133,21 @@ _start:
     ebreak
 `,
     expected: "Switch 0 on → a0 = 1",
-    checkpoint: "The program has read an on-state from input 0.",
+    checkpoint: "Register a0 contains 1 from input switch 0.",
     tip: "Set the switch before Run. EBREAK stops the processor, so moving the switch after it stops cannot change a0 until you run the program again.",
   },
   {
     id: "counter",
     number: "04",
-    title: "Build the complete counter",
+    title: "Button-controlled counter",
     short: "Input → CPU → output",
-    aim: "Combine input, arithmetic, a loop, and output into a working project.",
-    why: "The program remembers the previous button state. It increments only when the state changes from zero to one. Holding the button down therefore counts once, and eight bits make the counter wrap from 255 back to zero.",
+    aim: "Count each rising edge on input 0 and write the count to the LEDs.",
+    why: "The program stores the previous button state in s1. It increments when the state changes from zero to one, so holding the button counts once. The eight-bit count wraps from 255 to zero.",
     steps: [
       "Assemble & Load. The counter starts at zero with the input switches off.",
-      "Choose Run. This program intentionally keeps looping; Pause stops it.",
-      "Use Press button to send a short real input pulse. The LEDs should show 1. Press again to get 2, then 3.",
-      "Try holding switch 0 on: the count increases once, not on every CPU clock. Turn it off before the next press.",
+      "Choose Run to start the loop. Choose Pause to stop execution.",
+      "Select Press button. The LEDs should show 1, then 2 after another press.",
+      "Try holding switch 0 on. The count increases once. Turn it off before the next press.",
       "Inspect s0 (x8), which holds the count. Pause and use Instruction or Cycle to follow the loop.",
     ],
     source: `.section .text
@@ -170,7 +170,7 @@ loop:
 `,
     expected: "One press → 1 · two presses → 2 · holding → one increment",
     checkpoint:
-      "The counter register and LED output match after a real input press.",
+      "Register s0 and the LED output contain the same count after a button press.",
     tip: "An automatic press lasts at least 250 ms and is held longer at slow simulation speeds so the CPU can poll it. Real mechanical buttons also need debouncing; the virtual switches are clean signals.",
   },
 ];
@@ -201,7 +201,7 @@ export const tools = [
   {
     id: "picorv32",
     name: "PicoRV32",
-    role: "THE PROCESSOR",
+    role: "PROCESSOR CORE",
     description:
       "The open-source Verilog core that executes your instructions. This lab pins its upstream source and uses the native memory interface.",
     url: "https://github.com/YosysHQ/picorv32",
@@ -211,7 +211,7 @@ export const tools = [
   {
     id: "verilator",
     name: "Verilator",
-    role: "THE SIMULATOR",
+    role: "HARDWARE SIMULATOR",
     description:
       "Compiles the Verilog core into a native C++ hardware model. The project’s live registers, cycles, and retirement records come from that model.",
     url: "https://verilator.org/guide/latest/overview.html",
@@ -221,9 +221,9 @@ export const tools = [
   {
     id: "binutils",
     name: "GNU Binutils",
-    role: "THE ASSEMBLER",
+    role: "ASSEMBLER AND LINKER",
     description:
-      "Assembles and links your RV32IM program and provides real machine-code disassembly. RISC-V assembly is software for the core; it does not define the core’s hardware.",
+      "Assembles and links RV32IM programs and disassembles their machine code. Assembly programs run on the processor. The processor’s hardware is defined in Verilog.",
     url: "https://sourceware.org/binutils/docs/as/RISC_002dV_002dOptions.html",
     directoryUrl: "https://sourceware.org/binutils/",
     used: true,
@@ -231,7 +231,7 @@ export const tools = [
   {
     id: "yosys",
     name: "Yosys",
-    role: "A NEXT HARDWARE STEP",
+    role: "FPGA SYNTHESIS",
     description:
       "Synthesizes a hardware design for a supported FPGA flow. Use it after adding real RAM, peripherals, clock/reset logic, and board constraints.",
     url: "https://github.com/YosysHQ/yosys",
@@ -241,7 +241,7 @@ export const tools = [
   {
     id: "nextpnr",
     name: "nextpnr",
-    role: "A NEXT HARDWARE STEP",
+    role: "FPGA PLACE AND ROUTE",
     description:
       "Places and routes synthesized logic for supported FPGA families. Its target and programming tools depend on the board you choose.",
     url: "https://github.com/YosysHQ/nextpnr",

@@ -314,28 +314,28 @@ export default function InstructionFlow({
         ? "add t2, t0, t1"
         : record
           ? hex(record.instruction)
-          : "Waiting for a trace"),
+          : "No completed instruction"),
     details
       ? `${details.operandA.value}  /  ${details.operandB.value}`
-      : "—  /  —",
-    details?.equation ?? "—",
+      : "N/A / N/A",
+    details?.equation ?? "Not available",
     details
       ? `${details.resultLabel.split(" · ")[0]} = ${details.resultValue}`
-      : "—",
+      : "Not available",
   ];
   const captions =
     record && details
       ? [
-          `The instruction word ${hex(record.instruction)} came from address ${hex(record.pc)}.`,
-          `${details.operandA.label} supplies ${details.operandA.value}; ${details.operandB.label} supplies ${details.operandB.value}.`,
-          `${details.operation}: ${details.equation}. The result is taken from the recorded hardware trace.`,
+          `Instruction word ${hex(record.instruction)} at address ${hex(record.pc)}.`,
+          `${details.operandA.label}: ${details.operandA.value}. ${details.operandB.label}: ${details.operandB.value}.`,
+          `${details.operation}: ${details.equation}. The result comes from the recorded processor trace.`,
           details.finalDetail,
         ]
       : [
-          "Run or step an instruction to record the values that moved through the original core.",
-          "Operands will appear here after the first instruction retires.",
-          "The explanation adapts to arithmetic, memory access, and control flow.",
-          "Register writes, stores, and next-PC values come from the core’s RVFI trace.",
+          "Run or step the processor to inspect a completed instruction.",
+          "Source operands appear here after an instruction completes.",
+          "This step shows arithmetic, memory access, or control flow for the selected instruction.",
+          "Register writes, stores, and next-PC values come from the RVFI trace.",
         ];
   return (
     <figure
@@ -343,14 +343,14 @@ export default function InstructionFlow({
       aria-label="Instruction execution explanation"
     >
       <div className="flow-card-head">
-        <h3>Inside one instruction</h3>
+        <h3>Instruction data flow</h3>
         <span className={`flow-trace-status ${record ? "has-trace" : ""}`}>
           <i />
           {example
             ? "Example · 7 + 35 → 42"
             : record
               ? `Trace #${record.order}`
-              : "Waiting for execution"}
+              : "Run a program to begin"}
         </span>
       </div>
       <div className="flow-art-wrap">
@@ -435,7 +435,7 @@ export default function InstructionFlow({
       </div>
       <figcaption className="flow-caption" aria-live="polite">
         <strong>
-          {record ? details?.operation : "Follow the data, not just the code."}
+          {record ? details?.operation : "No completed instruction"}
         </strong>
         <span>{captions[phaseIndex]}</span>
       </figcaption>

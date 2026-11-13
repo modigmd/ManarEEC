@@ -1,4 +1,4 @@
-import { useId, type CSSProperties } from "react";
+import { memo, useId, type CSSProperties } from "react";
 import {
   boxCorners,
   depthOf,
@@ -136,7 +136,7 @@ function Solid({ paths, className }: { paths: SolidPaths; className: string }) {
 }
 
 /** A decorative package mark; its short hover sweep does not represent simulation activity. */
-export default function ProcessorMark({
+export default memo(function ProcessorMark({
   size = 80,
   className = "",
 }: {
@@ -211,4 +211,4 @@ export default function ProcessorMark({
       </g>
     </svg>
   );
-}
+});

@@ -1,0 +1,162 @@
+.led-output-mark {
+  display: block;
+  flex: none;
+  overflow: visible;
+  isolation: isolate;
+}
+.led-output-mark__assembly {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 500ms cubic-bezier(0.22, 0.7, 0.3, 1);
+}
+.led-output-mark__shadow {
+  fill: #000;
+  opacity: 0.46;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 500ms,
+    transform 500ms;
+}
+.led-output-mark__fill {
+  fill: #152333;
+}
+.led-output-mark__top {
+  fill: #293d50;
+}
+.led-output-mark__shade--0 {
+  fill: #101a27;
+}
+.led-output-mark__shade--1 {
+  fill: #152538;
+}
+.led-output-mark__shade--2 {
+  fill: #1d3044;
+}
+.led-output-mark__shade--3 {
+  fill: #263c50;
+}
+.led-output-mark__edge {
+  fill: none;
+  stroke: #5b7993;
+  stroke-width: 0.65;
+  stroke-linejoin: round;
+}
+.led-output-mark__bevel {
+  fill: none;
+  stroke: #a1b8cb66;
+  stroke-width: 0.5;
+}
+.led-output-mark__contact .led-output-mark__top,
+.led-output-mark__pad .led-output-mark__top {
+  fill: var(--led-output-metal, #a8bdcd);
+}
+.led-output-mark__contact .led-output-mark__fill,
+.led-output-mark__pad .led-output-mark__fill {
+  fill: #536e86;
+}
+.led-output-mark__contact .led-output-mark__shade--0,
+.led-output-mark__pad .led-output-mark__shade--0 {
+  fill: #364d65;
+}
+.led-output-mark__contact .led-output-mark__shade--1,
+.led-output-mark__pad .led-output-mark__shade--1 {
+  fill: #48637b;
+}
+.led-output-mark__contact .led-output-mark__shade--2,
+.led-output-mark__pad .led-output-mark__shade--2 {
+  fill: #68839a;
+}
+.led-output-mark__contact .led-output-mark__shade--3,
+.led-output-mark__pad .led-output-mark__shade--3 {
+  fill: #819aaf;
+}
+.led-output-mark__contact .led-output-mark__edge,
+.led-output-mark__pad .led-output-mark__edge {
+  stroke: #b1c4d3;
+  stroke-width: 0.4;
+}
+.led-output-mark__inset {
+  fill: none;
+  stroke: #7e98ad55;
+  stroke-width: 0.45;
+}
+.led-output-mark__trace {
+  fill: none;
+  stroke: #5fb4d5;
+  stroke-width: 0.55;
+  opacity: 0.7;
+}
+.led-output-mark__hole circle:first-child {
+  fill: #152333;
+  stroke: #7895ad;
+  stroke-width: 0.5;
+}
+.led-output-mark__hole circle:last-child {
+  fill: #070e17;
+}
+.led-output-mark__housing .led-output-mark__top {
+  fill: #314c60;
+}
+.led-output-mark__housing .led-output-mark__edge {
+  stroke: #6c8da4;
+  stroke-width: 0.5;
+}
+.led-output-mark__lens .led-output-mark__top {
+  fill: #315b70;
+}
+.led-output-mark__lens .led-output-mark__shade--0 {
+  fill: #163144;
+}
+.led-output-mark__lens .led-output-mark__shade--1 {
+  fill: #1d3b50;
+}
+.led-output-mark__lens .led-output-mark__shade--2 {
+  fill: #254b61;
+}
+.led-output-mark__lens .led-output-mark__shade--3 {
+  fill: #2c5267;
+}
+.led-output-mark__lens .led-output-mark__edge {
+  stroke: #7194a8;
+  stroke-width: 0.4;
+}
+.led-output-mark .is-on .led-output-mark__lens .led-output-mark__top {
+  fill: #75e2ef;
+}
+.led-output-mark .is-on .led-output-mark__lens .led-output-mark__shade--0 {
+  fill: #205267;
+}
+.led-output-mark .is-on .led-output-mark__lens .led-output-mark__shade--1 {
+  fill: #2d7a8e;
+}
+.led-output-mark .is-on .led-output-mark__lens .led-output-mark__shade--2 {
+  fill: #42a5b8;
+}
+.led-output-mark .is-on .led-output-mark__lens .led-output-mark__shade--3 {
+  fill: #5cc7d6;
+}
+.led-output-mark .is-on .led-output-mark__lens .led-output-mark__edge {
+  stroke: #b4f5ff;
+}
+.led-output-mark .is-on .led-output-mark__lens .led-output-mark__bevel {
+  stroke: #d5fcff;
+}
+.led-output-mark:hover .led-output-mark__assembly,
+.outcome-path > div:hover .led-output-mark__assembly,
+.outcome-path > div:focus-within .led-output-mark__assembly {
+  transform: translateY(-3px);
+}
+.led-output-mark:hover .led-output-mark__shadow,
+.outcome-path > div:hover .led-output-mark__shadow,
+.outcome-path > div:focus-within .led-output-mark__shadow {
+  opacity: 0.32;
+  transform: translateY(2px) scale(1.03);
+}
+@media (prefers-reduced-motion: reduce) {
+  .led-output-mark__assembly,
+  .led-output-mark__shadow {
+    transition: none !important;
+    transform: none !important;
+  }
+}

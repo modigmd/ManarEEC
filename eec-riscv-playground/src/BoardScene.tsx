@@ -445,7 +445,7 @@ export default function BoardScene(props: BoardSceneProps) {
       }
       ctx.fillStyle = "#b8d5e7";
       ctx.font = "19px monospace";
-      ctx.fillText("BUILT TO BE UNDERSTOOD.", 1310, 1170);
+      ctx.fillText("RV32IM / 32 REGISTERS", 1310, 1170);
       for (let i = 0; i < 90; i++) {
         const x = 60 + ((i * 137) % 1900),
           y = 170 + ((i * 83) % 900);
@@ -1416,7 +1416,7 @@ export default function BoardScene(props: BoardSceneProps) {
                       props.selectedPart === part.id ? null : part.id,
                     )
               }
-              aria-label={`${part.name}${props.assemblyMode && !(props.assemblyPlaced ?? []).includes(part.id) ? " — place component" : ""}`}
+              aria-label={`${part.name}${props.assemblyMode && !(props.assemblyPlaced ?? []).includes(part.id) ? ": place component" : ""}`}
             >
               <span>{part.number}</span>
               {part.name}

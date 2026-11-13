@@ -120,7 +120,7 @@ class Simulator {
       halted = true;
       uint32_t pc = top->dbg_pc;
       uint32_t insn = pc < ram.size() ? word(pc) : 0;
-      if (insn == 0x00100073) message = "Program complete — EBREAK at " + hex32(pc) + ".";
+      if (insn == 0x00100073) message = "Program complete: EBREAK at " + hex32(pc) + ".";
       else message = "Hardware trap at " + hex32(pc) + " (instruction " + hex32(insn) + "). Check unsupported instructions or misaligned accesses.";
     }
   }

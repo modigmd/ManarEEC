@@ -591,7 +591,7 @@ svg {
     inset 0 1px #a5ddff0c;
   margin-bottom: 18px;
 }
-.outcome-icon.processor-mark-host {
+.outcome-icon.component-mark-host {
   width: 88px;
   height: 66px;
   border: 0;
@@ -2794,11 +2794,13 @@ summary {
     border-radius: 10px;
     margin-bottom: 13px;
   }
-  .outcome-icon.processor-mark-host {
+  .outcome-icon.component-mark-host {
     width: 70px;
     height: 51px;
   }
-  .processor-mark-host .processor-mark {
+  .outcome-icon.component-mark-host > svg {
+    width: 70px;
+    height: 70px;
     max-width: 70px;
     max-height: 70px;
   }
