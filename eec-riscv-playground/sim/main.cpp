@@ -22,6 +22,7 @@ static std::string hex32(uint32_t v) {
 }
 
 class Simulator {
+  VerilatedContext context;
   std::unique_ptr<Vlab_top> top;
   std::array<uint8_t, 65536> ram{};
   std::vector<uint8_t> image;
@@ -125,9 +126,14 @@ class Simulator {
   }
 
  public:
-  Simulator() { reset(); }
+  Simulator(int argc, char** argv) {
+    // This core is single-threaded. Avoid a host-sized worker pool and its stacks.
+    context.threads(1);
+    context.commandArgs(argc, argv);
+    reset();
+  }
   void reset() {
-    top = std::make_unique<Vlab_top>();
+    top = std::make_unique<Vlab_top>(&context);
     ram.fill(0);
     std::copy(image.begin(), image.end(), ram.begin());
     leds = 0; cycle = 0; retired = 0; lastInstruction = 0;
@@ -209,8 +215,7 @@ class Simulator {
 };
 
 int main(int argc, char** argv) {
-  Verilated::commandArgs(argc, argv);
-  Simulator sim;
+  Simulator sim(argc, argv);
   std::string line;
   while (std::getline(std::cin, line)) {
     if (line.size() > 500000) { std::cout << json({{"error", "Command too large."}}).dump() << std::endl; continue; }
