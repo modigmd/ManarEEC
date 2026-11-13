@@ -253,7 +253,10 @@ wss.on("connection", (ws) => {
   let queue = Promise.resolve(),
     queued = 0;
   const send = (data) => {
-    if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(data));
+    if (ws.readyState !== WebSocket.OPEN) return;
+    // A stalled browser must not accumulate an unbounded snapshot buffer.
+    if (ws.bufferedAmount > 2 * 1024 * 1024) return ws.terminate();
+    ws.send(JSON.stringify(data));
   };
   const sendSnapshot = (snapshot) => {
     session.last = snapshot;
