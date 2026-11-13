@@ -596,11 +596,15 @@ export default function App() {
       </a>
       <header className="site-header">
         <div className="header-inner">
-          <a className="eec-brand" href="#project" aria-label="ManarEEC home">
+          <a
+            className="eec-brand"
+            href="#project"
+            aria-label="Electrical Engineering Club home"
+          >
             <img src="/eec-logo.svg" alt="" />
             <strong>EEC</strong>
             <span>
-              ManarEEC<small>نادي الهندسة الكهربائية</small>
+              Electrical Engineering Club<small>نادي الهندسة الكهربائية</small>
             </span>
           </a>
           <nav
